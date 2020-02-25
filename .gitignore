@@ -39,9 +39,7 @@ build/Release
 
 # Dependency directories
 node_modules/
-Routes/Attendence
-Routes/Index
-views/
+
 jspm_packages/
 
 # TypeScript v1 declaration files

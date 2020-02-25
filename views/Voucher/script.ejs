@@ -1,0 +1,68 @@
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.0.1/firebase-auth.js"></script>
+<script>
+
+$(document).ready(function(){
+    //initialize the firebase app
+    var config = {
+        apiKey: "AIzaSyDASwtDdZ2oB2RvJwakNb5pzeCkAB44FFw",
+        authDomain: "dfmp-70a9c.firebaseapp.com",
+        databaseURL: "https://dfmp-70a9c.firebaseio.com",
+        projectId: "dfmp-70a9c",
+        storageBucket: "",
+        messagingSenderId: "1072791611032",
+        appId: "1:1072791611032:web:55c0a809a6a36a7c"
+    };
+    firebase.initializeApp(config);
+  
+    //create firebase references
+    var Auth = firebase.auth(); 
+  
+  
+    
+  
+    //Login
+    $('#loginForm').on('submit', function (e) {
+      e.preventDefault();
+      $('#loginModal').modal('hide');
+      $('#messageModalLabel').html(spanText('<i class="fa fa-cog fa-spin"></i>', ['center', 'info']));
+      $('#messageModal').modal('show');
+  
+      if( $('#loginEmail').val() != '' && $('#loginPassword').val() != '' ){
+        //login the user
+        var data = {
+          email: $('#loginEmail').val(),
+          password: $('#loginPassword').val()
+        };
+        firebase.auth().signInWithEmailAndPassword(data.email, data.password)
+          .then(function(authData) {
+            auth = authData;
+            $('#messageModalLabel').html(spanText('Success!', ['center', 'success']))
+            $('#messageModal').modal('hide');
+          })
+          .catch(function(error) {
+            console.log("Login Failed!", error);
+            $('#messageModalLabel').html(spanText('ERROR: '+error.code, ['danger']))
+          });
+      }
+    });
+  
+    $('#logout').on('click', function(e) {
+      e.preventDefault();
+      firebase.auth().signOut()
+    });
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        $('.check').css("display", "");
+      } else {
+        $('.check').css("display", "none");
+      }
+    });
+  })
+function spanText(textStr, textClasses) {
+  var classNames = textClasses.map(c => 'text-'+c).join(' ');
+  return '<span class="'+classNames+'">'+ textStr + '</span>';
+}
+
+
+  </script>
